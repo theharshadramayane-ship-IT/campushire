@@ -109,3 +109,35 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #2563eb; /* Blue */
+  --bg-color: #f8fafc;     /* Light Grey */
+  --text-dark: #1e293b;
+  --text-light: #64748b;
+  --white: #ffffff;
+  --border: #e2e8f0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
