@@ -1,8 +1,14 @@
+import Navbar from './components/Navbar';
+import './App.css';
+
 function App() {
   return (
     <div>
-      <h1>CampusHire</h1>
-      <p>Building the future of campus placements.</p>
+      <Navbar />
+      <main style={{ padding: '3rem', textAlign: 'center' }}>
+        <h1>Welcome to CampusHire</h1>
+        <p>The exclusive job portal for Milestone College.</p>
+      </main>
     </div>
   );
 }

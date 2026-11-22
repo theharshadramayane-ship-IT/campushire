@@ -1,0 +1,59 @@
+.navbar {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.logo span {
+  color: var(--primary-color);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  font-weight: 500;
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--primary-color);
+}
+
+.btn-login {
+  color: var(--primary-color) !important;
+}
+
+.btn-register {
+  background-color: var(--primary-color);
+  color: var(--white) !important;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.btn-register:hover {
+  background-color: #1d4ed8;
+}
