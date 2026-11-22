@@ -6,15 +6,17 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // JSON data parse karne ke liye
+app.use(express.json());
 
-// Basic Route
+// Import Routes
+const authRoutes = require('./routes/authRoutes');
+
+// Mount Routes
+app.use('/api/auth', authRoutes);
+
+// Basic Health Route
 app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'UP',
-    project: 'CampusHire',
-    tech: 'Node.js + Express'
-  });
+  res.status(200).json({ status: 'UP', project: 'CampusHire' });
 });
 
 // Server Listen
