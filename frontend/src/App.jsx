@@ -3,7 +3,8 @@ import Navbar from './components/Navbar';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Jobs from './pages/Jobs';
-import Admin from './pages/Admin'; // Import Admin
+import Admin from './pages/Admin';
+import MyApplications from './pages/MyApplications'; // Import
 import './App.css';
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/jobs" element={<Jobs />} />
-        <Route path="/admin" element={<Admin />} /> {/* Add Route */}
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/my-applications" element={<MyApplications />} /> {/* Add Route */}
       </Routes>
     </Router>
   );
