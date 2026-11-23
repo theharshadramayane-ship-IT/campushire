@@ -20,6 +20,28 @@
   font-size: 1.1rem;
 }
 
+/* Success / Error Message Styles */
+.status-message {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.status-message.success {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border-color: #bbf7d0;
+}
+
+.status-message.error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
 .jobs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
