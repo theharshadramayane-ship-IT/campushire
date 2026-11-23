@@ -67,3 +67,22 @@
 .btn-primary:hover {
   background-color: #1d4ed8;
 }
+
+/* ... (purana code same rahega) ... */
+
+/* Royal Purple Theme */
+.admin-theme {
+  background-color: #faf5ff;
+}
+.admin-theme .admin-card {
+  border-top: 4px solid #8b5cf6;
+}
+.admin-theme .btn-primary {
+  background-color: #8b5cf6;
+}
+.admin-theme .btn-primary:hover {
+  background-color: #7c3aed;
+}
+.admin-theme .admin-card h2 {
+  color: #6b21a8;
+}
