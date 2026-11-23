@@ -78,3 +78,24 @@
   text-decoration: none;
   font-weight: 500;
 }
+
+/* ... (purana code same rahega) ... */
+
+/* Warm Amber Theme */
+.myapps-theme {
+  background-color: #fffbeb;
+}
+.myapps-theme .app-card {
+  border-left: 5px solid #f59e0b;
+}
+.myapps-theme .status-badge {
+  background-color: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+.myapps-theme .btn-primary {
+  background-color: #f59e0b;
+}
+.myapps-theme .btn-primary:hover {
+  background-color: #d97706;
+}

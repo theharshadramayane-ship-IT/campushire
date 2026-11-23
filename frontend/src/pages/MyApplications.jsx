@@ -7,6 +7,7 @@ export default function MyApplications() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -16,27 +17,19 @@ export default function MyApplications() {
       return;
     }
 
-    fetch('http://localhost:5000/api/jobs/my-applications', {
+    fetch(`${API_URL}/api/jobs/my-applications`, {
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
-      .then(data => {
-        setApplications(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [token, user, navigate]);
+      .then(data => { setApplications(data); setLoading(false); })
+      .catch(err => { console.error(err); setLoading(false); });
+  }, [token, user, navigate, API_URL]);
 
   if (loading) return <div className="loading">Loading your applications...</div>;
 
   return (
-    <div className="myapps-container">
+    <div className="myapps-container myapps-theme">
       <div className="myapps-header">
         <h1>My Applications</h1>
         <p>Track the jobs you have applied for</p>
