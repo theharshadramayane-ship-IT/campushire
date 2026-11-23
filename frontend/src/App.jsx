@@ -1,14 +1,28 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Register from './pages/Register';
+import Login from './pages/Login';
 import './App.css';
 
 function App() {
   return (
-    <div>
+    <Router>
       <Navbar />
-      <main style={{ padding: '3rem', textAlign: 'center' }}>
-        <h1>Welcome to CampusHire</h1>
-        <p>The exclusive job portal for Milestone College.</p>
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+}
+
+// Ek chota sa temporary Home component
+function Home() {
+  return (
+    <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+      <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Welcome to CampusHire</h1>
+      <p style={{ color: 'var(--text-light)' }}>The exclusive job portal for Milestone College.</p>
     </div>
   );
 }
