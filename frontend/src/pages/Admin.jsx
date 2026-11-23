@@ -6,37 +6,33 @@ export default function Admin() {
   const [formData, setFormData] = useState({ title: '', company: '', location: '', salary: '', type: 'Full-Time', description: '' });
   const [message, setMessage] = useState({ text: '', type: '' });
   const navigate = useNavigate();
-  
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
 
-  // Agar user login nahi hai ya admin nahi hai, toh wapas bhej do
   if (!token || !user || user.role !== 'admin') {
     navigate('/login');
     return null;
   }
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handlePostJob = async (e) => {
     e.preventDefault();
     setMessage({ text: '', type: '' });
 
     try {
-      const res = await fetch('http://localhost:5000/api/jobs', {
+      const res = await fetch(`${API_URL}/api/jobs`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Send JWT
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData)
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-
       setMessage({ text: 'Job posted successfully!', type: 'success' });
       setFormData({ title: '', company: '', location: '', salary: '', type: 'Full-Time', description: '' });
     } catch (err) {
@@ -45,14 +41,12 @@ export default function Admin() {
   };
 
   return (
-    <div className="admin-container">
+    <div className="admin-container admin-theme">
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
         <p>Manage job postings for Milestone College</p>
       </div>
-
       {message.text && <div className={`status-message ${message.type}`}>{message.text}</div>}
-
       <div className="admin-card">
         <h2>Post a New Job</h2>
         <form onSubmit={handlePostJob} className="admin-form">
