@@ -1,60 +1,55 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { promisePool } = require('../db');
 
-// Temporary in-memory database (Baad me MySQL se replace hoga)
-let users = []; 
-
-// Secret key for JWT (Production me .env me rakhna)
 const JWT_SECRET = 'supersecret_campushire_key';
 
-// 1. Register (Signup) Logic
+// Register User
 const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // Milestone College Email Verification Check
+    // Milestone Email check
     const emailRegex = /^[a-zA-Z0-9._%+-]+@milestone\.edu\.in$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ message: "Only @milestone.edu.in emails are allowed!" });
     }
 
-    // Check if user already exists
-    const userExists = users.find(u => u.email === email);
-    if (userExists) {
+    // Check if user exists
+    const [existingUser] = await promisePool.query('SELECT * FROM users WHERE email = ?', [email]);
+    if (existingUser.length > 0) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash the password
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
-    const newUser = {
-      id: users.length + 1,
-      name,
-      email,
-      password: hashedPassword,
-      role: role || 'student'
-    };
+    // Insert into DB
+    const userRole = role || 'student';
+    const [result] = await promisePool.query(
+      'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+      [name, email, hashedPassword, userRole]
+    );
 
-    users.push(newUser);
-
-    res.status(201).json({ message: "User registered successfully!", user: newUser.name });
+    res.status(201).json({ message: "User registered successfully!", userId: result.insertId });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-// 2. Login Logic
+// Login User
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
-    const user = users.find(u => u.email === email);
-    if (!user) {
+    // Find user in DB
+    const [users] = await promisePool.query('SELECT * FROM users WHERE email = ?', [email]);
+    if (users.length === 0) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+
+    const user = users[0];
 
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);
@@ -62,19 +57,12 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Generate JWT Token
-    
-
-    
-
-    // Generate JWT Token (Add email in payload)
+    // Generate JWT
     const token = jwt.sign(
       { id: user.id, role: user.role, email: user.email }, 
       JWT_SECRET, 
       { expiresIn: '1d' }
     );
-
-
 
     res.status(200).json({
       message: "Login successful",
