@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import Jobs from './pages/Jobs'; 
+import Jobs from './pages/Jobs';
+import Admin from './pages/Admin'; // Import Admin
 import './App.css';
 
 function App() {
@@ -14,12 +15,12 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/jobs" element={<Jobs />} />
+        <Route path="/admin" element={<Admin />} /> {/* Add Route */}
       </Routes>
     </Router>
   );
 }
 
-// Ek chota sa temporary Home component
 function Home() {
   return (
     <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
