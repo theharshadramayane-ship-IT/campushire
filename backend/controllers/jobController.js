@@ -22,12 +22,15 @@ let jobs = [
   }
 ];
 
+// Temporary Applications Database for Idempotency Check
+let applications = [];
+
 // 1. Get All Jobs
 const getJobs = (req, res) => {
   res.status(200).json(jobs);
 };
 
-// 2. Create a Job (Admin Only - logic baad me add karenge)
+// 2. Create a Job (Admin Only)
 const createJob = (req, res) => {
   const { title, company, location, salary, type, description } = req.body;
   
@@ -50,4 +53,39 @@ const createJob = (req, res) => {
   res.status(201).json({ message: "Job posted successfully", job: newJob });
 };
 
-module.exports = { getJobs, createJob };
+// 3. Apply to Job (With Idempotency)
+const applyToJob = (req, res) => {
+  const { jobId } = req.params;
+  const { studentEmail } = req.body;
+
+  if (!studentEmail) {
+    return res.status(400).json({ message: "Student email is required" });
+  }
+
+  // Check if job exists
+  const jobExists = jobs.find(j => j.id === parseInt(jobId));
+  if (!jobExists) {
+    return res.status(404).json({ message: "Job not found" });
+  }
+
+  // IDEMPOTENCY CHECK: Prevent double application
+  const alreadyApplied = applications.find(
+    app => app.jobId === parseInt(jobId) && app.studentEmail === studentEmail
+  );
+
+  if (alreadyApplied) {
+    return res.status(409).json({ message: "You have already applied for this job!" }); // 409 Conflict
+  }
+
+  const newApplication = {
+    id: applications.length + 1,
+    jobId: parseInt(jobId),
+    studentEmail,
+    appliedAt: new Date().toISOString()
+  };
+
+  applications.push(newApplication);
+  res.status(201).json({ message: "Application submitted successfully", application: newApplication });
+};
+
+module.exports = { getJobs, createJob, applyToJob };
