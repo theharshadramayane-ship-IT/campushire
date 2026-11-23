@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { getJobs, createJob, applyToJob } = require('../controllers/jobController');
+const { getJobs, createJob, applyToJob, getAllApplications } = require('../controllers/jobController');
+const { protect, adminOnly } = require('../middleware/authMiddleware');
 
-// GET all jobs
 router.get('/', getJobs);
-
-// POST new job (Admin)
-router.post('/', createJob);
-
-// POST apply to a specific job
+router.post('/', protect, adminOnly, createJob);
 router.post('/:jobId/apply', applyToJob);
+router.get('/applications', protect, adminOnly, getAllApplications); // New route
 
 module.exports = router;
