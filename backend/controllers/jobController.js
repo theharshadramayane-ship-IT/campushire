@@ -28,9 +28,28 @@ const applyToJob = (req, res) => {
   res.status(201).json({ message: "Application submitted successfully", application: newApplication });
 };
 
-// New: Admin can view all applications
+// Admin: Get all applications
 const getAllApplications = (req, res) => {
   res.status(200).json(applications);
 };
 
-module.exports = { getJobs, createJob, applyToJob, getAllApplications };
+// NEW: Student: Get their own applications
+const getMyApplications = (req, res) => {
+  const studentEmail = req.user.email; // Middleware se aayega (Token me se)
+  
+  // Student ki applications filter karo
+  const myApps = applications.filter(app => app.studentEmail === studentEmail);
+  
+  // Har application ke sath job ki detail bhi attach karo
+  const appsWithJobDetails = myApps.map(app => {
+    const job = jobs.find(j => j.id === app.jobId);
+    return {
+      ...app,
+      jobDetails: job || null
+    };
+  });
+
+  res.status(200).json(appsWithJobDetails);
+};
+
+module.exports = { getJobs, createJob, applyToJob, getAllApplications, getMyApplications };
