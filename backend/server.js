@@ -11,6 +11,10 @@ app.use(express.json());
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
 
+// Server.js me yeh line add karo (auth routes ke neeche)
+const jobRoutes = require('./routes/jobRoutes');
+app.use('/api/jobs', jobRoutes);
+
 // Mount Routes
 app.use('/api/auth', authRoutes);
 
